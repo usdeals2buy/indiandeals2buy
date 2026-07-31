@@ -6,6 +6,7 @@
 <title>IndianDeals2Buy — Hand-picked Amazon India Deals</title>
 <meta name="description" content="Hand-picked deals on Amazon India: electronics, home &amp; kitchen, books and more. {{product_count}} products and counting.">
 <link rel="canonical" href="https://indiandeals2buy.com/">
+<meta name="theme-color" content="#0f172a">
 <meta property="og:type" content="website">
 <meta property="og:title" content="IndianDeals2Buy — Hand-picked Amazon India Deals">
 <meta property="og:description" content="Hand-picked deals on Amazon India. {{product_count}} products and counting.">
@@ -14,50 +15,85 @@
 </head>
 <body>
 <header class="site-header">
-  <a class="site-logo" href="index.html">IndianDeals2Buy</a>
-</header>
-<main class="index-page">
-  <section class="intro">
-    <h1>Hand-picked Amazon India deals</h1>
-    <p>{{product_count}} products across {{category_count}} categories, updated regularly. Every link goes straight to Amazon.in.</p>
-    <p class="disclosure">As an Amazon Associate I earn from qualifying purchases.</p>
-  </section>
-  <div class="search-box">
-    <input type="search" id="filter" placeholder="Type to filter deals&hellip;" aria-label="Filter deals" autocomplete="off">
-    <span id="filter-count" class="filter-count"></span>
+  <div class="header-inner">
+    <a class="site-logo" href="index.html">Indian<span>Deals</span>2Buy</a>
+    <p class="header-tag">Hand-picked Amazon India deals</p>
   </div>
+</header>
+
+<main class="index-page">
+  <section class="hero">
+    <h1>Deals worth your money.</h1>
+    <p class="hero-sub">Every product here is picked by hand and links straight to Amazon.in — no clutter, no clickbait, no tracking scripts.</p>
+    <div class="stats">
+      <div class="stat"><strong>{{product_count}}</strong><span>products</span></div>
+      <div class="stat"><strong>{{category_count}}</strong><span>categories</span></div>
+      <div class="stat"><strong>0</strong><span>trackers</span></div>
+    </div>
+  </section>
+
+  <div class="search-wrap">
+    <div class="search-box">
+      <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
+      <input type="search" id="filter" placeholder="Search deals by name or category&hellip;" aria-label="Search deals" autocomplete="off">
+      <span id="filter-count" class="filter-count"></span>
+    </div>
+    <nav class="chips" aria-label="Categories">
+{{category_chips}}
+    </nav>
+  </div>
+
+{{featured_section}}
+
+  <section class="all-deals">
+    <h2 class="section-heading">All deals</h2>
 {{category_sections}}
-  <p id="no-results" class="no-results" hidden>No deals match your search.</p>
+    <p id="no-results" class="no-results" hidden>No deals match your search.</p>
+  </section>
 </main>
+
 <footer class="site-footer">
   <p class="disclosure">As an Amazon Associate I earn from qualifying purchases.</p>
-  <p>&copy; IndianDeals2Buy</p>
+  <p class="muted">Prices shown were accurate at time of listing and may have changed. Check Amazon for the current price.</p>
+  <p class="muted">&copy; IndianDeals2Buy</p>
 </footer>
+
 <script>
 (function () {
   var input = document.getElementById('filter');
   if (!input) return;
-  var links = Array.prototype.slice.call(document.querySelectorAll('.product-list li'));
+  var items = Array.prototype.slice.call(document.querySelectorAll('.product-list li'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
   var sections = Array.prototype.slice.call(document.querySelectorAll('.category-section'));
+  var featured = document.querySelector('.featured');
   var noResults = document.getElementById('no-results');
   var countEl = document.getElementById('filter-count');
   var timer = null;
+
+  // Cache lowercased text once so filtering thousands of rows stays cheap.
+  var itemText = items.map(function (el) { return el.textContent.toLowerCase(); });
+  var cardText = cards.map(function (el) { return el.textContent.toLowerCase(); });
+
   input.addEventListener('input', function () {
     clearTimeout(timer);
     timer = setTimeout(applyFilter, 120);
   });
+
   function applyFilter() {
     var q = input.value.trim().toLowerCase();
     var shown = 0;
-    for (var i = 0; i < links.length; i++) {
-      var match = !q || links[i].textContent.toLowerCase().indexOf(q) !== -1;
-      links[i].hidden = !match;
-      if (match) shown++;
+    for (var i = 0; i < items.length; i++) {
+      var hit = !q || itemText[i].indexOf(q) !== -1;
+      items[i].hidden = !hit;
+      if (hit) shown++;
     }
-    for (var j = 0; j < sections.length; j++) {
-      var any = sections[j].querySelector('.product-list li:not([hidden])');
-      sections[j].hidden = !any;
+    for (var c = 0; c < cards.length; c++) {
+      cards[c].hidden = !!q && cardText[c].indexOf(q) === -1;
     }
+    for (var s = 0; s < sections.length; s++) {
+      sections[s].hidden = !sections[s].querySelector('.product-list li:not([hidden])');
+    }
+    if (featured) featured.hidden = !!q && !featured.querySelector('.card:not([hidden])');
     noResults.hidden = shown > 0;
     countEl.textContent = q ? shown + ' match' + (shown === 1 ? '' : 'es') : '';
   }

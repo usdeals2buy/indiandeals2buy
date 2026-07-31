@@ -32,14 +32,27 @@ it is generated; edit the templates or the data, never `docs/` directly.
   "category": "Electronics",
   "price": "₹1,299",
   "image_url": "https://m.media-amazon.com/images/...",
-  "affiliate_url": "https://www.amazon.in/dp/B08XYZ1234?tag=YOURTAG-21",
+  "affiliate_url": "https://www.amazon.in/dp/B08XYZ1234?tag=onlinedealsat-21",
   "description": "Short product description.",
-  "features": ["Feature 1", "Feature 2"]
+  "features": ["Feature 1", "Feature 2"],
+  "featured": true
 }
 ```
 
 Only `title` and `affiliate_url` are required; anything else is optional.
-`slug` is optional too — it is derived from the title when omitted.
+
+- **`affiliate_url`** may include the tag as shown above, or be a plain Amazon
+  link with no tag at all — both end up identical. `build.py` rewrites every
+  `amazon.*` URL to carry the Associates tag (`onlinedealsat-21`), replacing any
+  wrong or missing tag. Non-Amazon URLs are left untouched. To change the tag,
+  edit `AFFILIATE_TAG` at the top of `build.py` — it is defined in one place.
+- **`price`** is optional and safest left empty unless you keep it current.
+  Products without one show "See current price on Amazon" instead, which avoids
+  displaying a stale price.
+- **`featured: true`** promotes a product to the image-card grid at the top of
+  the index, capped at `MAX_FEATURED` (12). Everything else stays a plain text
+  link so the page remains light with thousands of products.
+- **`slug`** is derived from the title when omitted.
 
 2. Run the build and push:
 
@@ -106,9 +119,12 @@ the site ever stops resolving.
 
 ## Before launch
 
-- Replace `YOURTAG-21` in every `affiliate_url` with the real Associates tag.
-  The sample rows in `data/products.json` are placeholders with fake ASINs and
-  image URLs; delete them once real products are in.
+- The seeded products link to Amazon **search results** rather than specific
+  product pages, because their ASINs were never verified. Those links work and
+  carry the tag, but a direct `https://www.amazon.in/dp/<ASIN>` link converts far
+  better. Replace them as you confirm each ASIN.
+- `image_url` is empty on the seeded products, so featured cards show a lettered
+  tile instead of a broken image. Fill it in to get real product photos.
 - Amazon's Associates Operating Agreement generally requires product images to
   come through the Product Advertising API rather than being hotlinked from
   `m.media-amazon.com`. The templates hotlink as specified; check this against

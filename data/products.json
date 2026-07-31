@@ -1,97 +1,215 @@
 [
   {
-    "id": "B0EXAMPLE01",
-    "slug": "boat-airdopes-141-wireless-earbuds",
+    "id": "",
     "title": "boAt Airdopes 141 Bluetooth TWS Earbuds",
     "category": "Electronics",
-    "price": "₹1,299",
-    "image_url": "https://m.media-amazon.com/images/I/example-airdopes-141.jpg",
-    "affiliate_url": "https://www.amazon.in/dp/B0EXAMPLE01?tag=YOURTAG-21",
-    "description": "True wireless earbuds with 42 hours of total playback, ENx noise-cancellation for calls, and low-latency BEAST mode for gaming.",
+    "price": "",
+    "image_url": "",
+    "affiliate_url": "https://www.amazon.in/s?k=boAt+Airdopes+141",
+    "description": "True wireless earbuds with long battery life, ENx noise-cancellation for calls and a low-latency mode for gaming.",
     "features": [
-      "42 hours total playback with charging case",
-      "8mm drivers with punchy bass",
-      "IPX4 water resistance",
-      "Type-C fast charging — 5 min charge for 75 min playback"
-    ]
+      "Up to 42 hours total playback with the charging case",
+      "8mm drivers tuned for punchy bass",
+      "IPX4 water and sweat resistance",
+      "Type-C fast charging"
+    ],
+    "featured": true
   },
   {
-    "id": "B0EXAMPLE02",
-    "slug": "mi-power-bank-3i-20000mah",
+    "id": "",
     "title": "Mi Power Bank 3i 20000mAh",
     "category": "Electronics",
-    "price": "₹1,899",
-    "image_url": "https://m.media-amazon.com/images/I/example-mi-powerbank.jpg",
-    "affiliate_url": "https://www.amazon.in/dp/B0EXAMPLE02?tag=YOURTAG-21",
-    "description": "High-capacity 20000mAh power bank with 18W fast charging, dual output ports, and triple input options.",
+    "price": "",
+    "image_url": "",
+    "affiliate_url": "https://www.amazon.in/s?k=Mi+Power+Bank+3i+20000mAh",
+    "description": "High-capacity power bank with 18W fast charging, dual output ports and triple input options.",
     "features": [
-      "20000mAh lithium polymer battery",
+      "20000mAh lithium polymer cells",
       "18W fast charging in and out",
       "Dual USB-A output, USB-C and Micro-USB input",
       "12-layer circuit protection"
+    ],
+    "featured": true
+  },
+  {
+    "id": "",
+    "title": "Fire-Boltt Ninja Call Pro Plus Smartwatch",
+    "category": "Electronics",
+    "price": "",
+    "image_url": "",
+    "affiliate_url": "https://www.amazon.in/s?k=Fire-Boltt+Ninja+Call+Pro+Plus+smartwatch",
+    "description": "Large-display smartwatch with Bluetooth calling, a wide range of sports modes and week-long battery life.",
+    "features": [
+      "1.83-inch HD display",
+      "Bluetooth calling with built-in mic and speaker",
+      "100+ sports modes with SpO2 and heart-rate tracking",
+      "Up to 7 days of battery life"
+    ],
+    "featured": true
+  },
+  {
+    "id": "",
+    "title": "Noise ColorFit Pulse Grand Smartwatch",
+    "category": "Electronics",
+    "price": "",
+    "image_url": "",
+    "affiliate_url": "https://www.amazon.in/s?k=Noise+ColorFit+Pulse+Grand+smartwatch",
+    "description": "Budget smartwatch with a bright display, 60 sports modes and continuous health tracking.",
+    "features": [
+      "1.69-inch display with adjustable brightness",
+      "60 sports modes",
+      "SpO2, heart-rate and sleep tracking",
+      "Up to 10 days of battery life"
     ]
   },
   {
-    "id": "B0EXAMPLE03",
-    "slug": "prestige-iris-750w-mixer-grinder",
+    "id": "",
     "title": "Prestige Iris 750W Mixer Grinder",
     "category": "Home & Kitchen",
-    "price": "₹2,749",
-    "image_url": "https://m.media-amazon.com/images/I/example-prestige-iris.jpg",
-    "affiliate_url": "https://www.amazon.in/dp/B0EXAMPLE03?tag=YOURTAG-21",
-    "description": "750-watt mixer grinder with 3 stainless steel jars and 1 juicer jar for everyday Indian kitchen tasks.",
+    "price": "",
+    "image_url": "",
+    "affiliate_url": "https://www.amazon.in/s?k=Prestige+Iris+750W+mixer+grinder",
+    "description": "750-watt mixer grinder with three stainless steel jars and a juicer jar for everyday Indian cooking.",
     "features": [
       "750W motor with overload protection",
-      "3 stainless steel jars + 1 juicer jar",
+      "3 stainless steel jars plus 1 juicer jar",
       "3-speed control with whip function",
+      "2-year product warranty"
+    ],
+    "featured": true
+  },
+  {
+    "id": "",
+    "title": "Milton Thermosteel Flip Lid Flask, 1 Litre",
+    "category": "Home & Kitchen",
+    "price": "",
+    "image_url": "",
+    "affiliate_url": "https://www.amazon.in/s?k=Milton+Thermosteel+Flip+Lid+Flask+1+litre",
+    "description": "Double-walled vacuum-insulated stainless steel flask that keeps drinks hot or cold for up to 24 hours.",
+    "features": [
+      "24-hour hot and cold retention",
+      "Food-grade 18/8 stainless steel",
+      "Leak-proof flip lid",
+      "1 litre capacity"
+    ],
+    "featured": true
+  },
+  {
+    "id": "",
+    "title": "Pigeon Favourite Electric Kettle 1.5L",
+    "category": "Home & Kitchen",
+    "price": "",
+    "image_url": "",
+    "affiliate_url": "https://www.amazon.in/s?k=Pigeon+Favourite+electric+kettle+1.5L",
+    "description": "Compact stainless steel electric kettle for tea, coffee, instant noodles and boiling water quickly.",
+    "features": [
+      "1.5 litre stainless steel body",
+      "1500W fast boiling",
+      "Auto shut-off and boil-dry protection",
+      "Detachable base with cord storage"
+    ]
+  },
+  {
+    "id": "",
+    "title": "Atomic Habits by James Clear",
+    "category": "Books",
+    "price": "",
+    "image_url": "",
+    "affiliate_url": "https://www.amazon.in/s?k=Atomic+Habits+James+Clear",
+    "description": "The international bestseller on building good habits and breaking bad ones through small, practical changes.",
+    "features": [
+      "Framework of cue, craving, response and reward",
+      "Over 15 million copies sold worldwide",
+      "Available in paperback and Kindle editions"
+    ],
+    "featured": true
+  },
+  {
+    "id": "",
+    "title": "Ikigai: The Japanese Secret to a Long and Happy Life",
+    "category": "Books",
+    "price": "",
+    "image_url": "",
+    "affiliate_url": "https://www.amazon.in/s?k=Ikigai+book",
+    "description": "A short, widely read book on finding purpose, drawn from the habits of the world's longest-living communities.",
+    "features": [
+      "International bestseller",
+      "Compact hardcover edition",
+      "Popular gifting choice"
+    ]
+  },
+  {
+    "id": "",
+    "title": "Wildcraft 45L Rucksack Backpack",
+    "category": "Bags & Luggage",
+    "price": "",
+    "image_url": "",
+    "affiliate_url": "https://www.amazon.in/s?k=Wildcraft+45L+rucksack+backpack",
+    "description": "Durable 45-litre rucksack for weekend treks and travel, with padded straps and multiple compartments.",
+    "features": [
+      "45 litre capacity",
+      "Padded shoulder straps and back panel",
+      "Water-resistant fabric",
+      "Multiple compartments with rain cover"
+    ],
+    "featured": true
+  },
+  {
+    "id": "",
+    "title": "Philips BT3211 Beard Trimmer",
+    "category": "Personal Care",
+    "price": "",
+    "image_url": "",
+    "affiliate_url": "https://www.amazon.in/s?k=Philips+BT3211+beard+trimmer",
+    "description": "Cordless beard trimmer with adjustable length settings and long runtime on a single charge.",
+    "features": [
+      "20 length settings",
+      "Up to 60 minutes of cordless use",
+      "Self-sharpening stainless steel blades",
+      "Washable trimming head"
+    ]
+  },
+  {
+    "id": "",
+    "title": "Bajaj Frore 1200mm Ceiling Fan",
+    "category": "Home & Kitchen",
+    "price": "",
+    "image_url": "",
+    "affiliate_url": "https://www.amazon.in/s?k=Bajaj+Frore+1200mm+ceiling+fan",
+    "description": "Energy-efficient 1200mm ceiling fan with high air delivery, suited to medium and large rooms.",
+    "features": [
+      "1200mm sweep",
+      "High air delivery",
+      "Rust-resistant finish",
       "2-year warranty"
     ]
   },
   {
-    "id": "B0EXAMPLE04",
-    "slug": "atomic-habits-james-clear-paperback",
-    "title": "Atomic Habits by James Clear (Paperback)",
-    "category": "Books",
-    "price": "₹499",
-    "image_url": "https://m.media-amazon.com/images/I/example-atomic-habits.jpg",
-    "affiliate_url": "https://www.amazon.in/dp/B0EXAMPLE04?tag=YOURTAG-21",
-    "description": "The international bestseller on building good habits and breaking bad ones with tiny, practical changes.",
+    "id": "",
+    "title": "Nivea Men Dark Spot Reduction Face Wash",
+    "category": "Personal Care",
+    "price": "",
+    "image_url": "",
+    "affiliate_url": "https://www.amazon.in/s?k=Nivea+Men+dark+spot+reduction+face+wash",
+    "description": "Daily face wash formulated to cleanse deeply and reduce the appearance of dark spots over time.",
     "features": [
-      "Practical framework: cue, craving, response, reward",
-      "Over 15 million copies sold worldwide",
-      "Paperback, 320 pages"
+      "10x Vitamin C formula",
+      "Suitable for daily use",
+      "Deep-cleansing action"
     ]
   },
   {
-    "id": "B0EXAMPLE05",
-    "slug": "fire-boltt-ninja-call-pro-plus-smartwatch",
-    "title": "Fire-Boltt Ninja Call Pro Plus Smartwatch",
-    "category": "Electronics",
-    "price": "₹1,499",
-    "image_url": "https://m.media-amazon.com/images/I/example-fireboltt-ninja.jpg",
-    "affiliate_url": "https://www.amazon.in/dp/B0EXAMPLE05?tag=YOURTAG-21",
-    "description": "1.83\" display smartwatch with Bluetooth calling, 100+ sports modes, and week-long battery life.",
+    "id": "",
+    "title": "Cosco Volley Ball Size 4",
+    "category": "Sports & Fitness",
+    "price": "",
+    "image_url": "",
+    "affiliate_url": "https://www.amazon.in/s?k=Cosco+volleyball+size+4",
+    "description": "Durable rubberised volleyball suited to practice and recreational play on most surfaces.",
     "features": [
-      "1.83\" HD display",
-      "Bluetooth calling with built-in mic and speaker",
-      "100+ sports modes, SpO2 and heart-rate tracking",
-      "Up to 7 days battery life"
-    ]
-  },
-  {
-    "id": "B0EXAMPLE06",
-    "slug": "milton-thermosteel-flip-lid-flask-1l",
-    "title": "Milton Thermosteel Flip Lid Flask, 1 Litre",
-    "category": "Home & Kitchen",
-    "price": "₹899",
-    "image_url": "https://m.media-amazon.com/images/I/example-milton-flask.jpg",
-    "affiliate_url": "https://www.amazon.in/dp/B0EXAMPLE06?tag=YOURTAG-21",
-    "description": "Double-walled vacuum-insulated stainless steel flask that keeps drinks hot or cold for up to 24 hours.",
-    "features": [
-      "24-hour hot/cold retention",
-      "Food-grade 18/8 stainless steel",
-      "Leak-proof flip lid",
-      "1 litre capacity"
+      "Size 4, suited to training and casual play",
+      "Rubberised moulded construction",
+      "Good grip and durability"
     ]
   }
 ]

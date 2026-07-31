@@ -23,8 +23,7 @@
   <article class="product-card">
 {{image_block}}    <div class="product-info">
       <h1>{{title}}</h1>
-      <p class="price">{{price}}</p>
-      <p class="description">{{description}}</p>
+{{price_block}}      <p class="description">{{description}}</p>
       <ul class="features">
 {{features_html}}
       </ul>
