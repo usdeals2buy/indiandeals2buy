@@ -32,7 +32,7 @@ it is generated; edit the templates or the data, never `docs/` directly.
   "category": "Electronics",
   "price": "₹1,299",
   "image_url": "https://m.media-amazon.com/images/...",
-  "affiliate_url": "https://www.amazon.in/dp/B08XYZ1234?tag=YOURTAG-21",
+  "affiliate_url": "https://www.amazon.in/dp/B08XYZ1234?tag=onlinedealsat-21",
   "description": "Short product description.",
   "features": ["Feature 1", "Feature 2"]
 }
