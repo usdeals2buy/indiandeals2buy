@@ -1,0 +1,97 @@
+[
+  {
+    "id": "B0EXAMPLE01",
+    "slug": "boat-airdopes-141-wireless-earbuds",
+    "title": "boAt Airdopes 141 Bluetooth TWS Earbuds",
+    "category": "Electronics",
+    "price": "₹1,299",
+    "image_url": "https://m.media-amazon.com/images/I/example-airdopes-141.jpg",
+    "affiliate_url": "https://www.amazon.in/dp/B0EXAMPLE01?tag=YOURTAG-21",
+    "description": "True wireless earbuds with 42 hours of total playback, ENx noise-cancellation for calls, and low-latency BEAST mode for gaming.",
+    "features": [
+      "42 hours total playback with charging case",
+      "8mm drivers with punchy bass",
+      "IPX4 water resistance",
+      "Type-C fast charging — 5 min charge for 75 min playback"
+    ]
+  },
+  {
+    "id": "B0EXAMPLE02",
+    "slug": "mi-power-bank-3i-20000mah",
+    "title": "Mi Power Bank 3i 20000mAh",
+    "category": "Electronics",
+    "price": "₹1,899",
+    "image_url": "https://m.media-amazon.com/images/I/example-mi-powerbank.jpg",
+    "affiliate_url": "https://www.amazon.in/dp/B0EXAMPLE02?tag=YOURTAG-21",
+    "description": "High-capacity 20000mAh power bank with 18W fast charging, dual output ports, and triple input options.",
+    "features": [
+      "20000mAh lithium polymer battery",
+      "18W fast charging in and out",
+      "Dual USB-A output, USB-C and Micro-USB input",
+      "12-layer circuit protection"
+    ]
+  },
+  {
+    "id": "B0EXAMPLE03",
+    "slug": "prestige-iris-750w-mixer-grinder",
+    "title": "Prestige Iris 750W Mixer Grinder",
+    "category": "Home & Kitchen",
+    "price": "₹2,749",
+    "image_url": "https://m.media-amazon.com/images/I/example-prestige-iris.jpg",
+    "affiliate_url": "https://www.amazon.in/dp/B0EXAMPLE03?tag=YOURTAG-21",
+    "description": "750-watt mixer grinder with 3 stainless steel jars and 1 juicer jar for everyday Indian kitchen tasks.",
+    "features": [
+      "750W motor with overload protection",
+      "3 stainless steel jars + 1 juicer jar",
+      "3-speed control with whip function",
+      "2-year warranty"
+    ]
+  },
+  {
+    "id": "B0EXAMPLE04",
+    "slug": "atomic-habits-james-clear-paperback",
+    "title": "Atomic Habits by James Clear (Paperback)",
+    "category": "Books",
+    "price": "₹499",
+    "image_url": "https://m.media-amazon.com/images/I/example-atomic-habits.jpg",
+    "affiliate_url": "https://www.amazon.in/dp/B0EXAMPLE04?tag=YOURTAG-21",
+    "description": "The international bestseller on building good habits and breaking bad ones with tiny, practical changes.",
+    "features": [
+      "Practical framework: cue, craving, response, reward",
+      "Over 15 million copies sold worldwide",
+      "Paperback, 320 pages"
+    ]
+  },
+  {
+    "id": "B0EXAMPLE05",
+    "slug": "fire-boltt-ninja-call-pro-plus-smartwatch",
+    "title": "Fire-Boltt Ninja Call Pro Plus Smartwatch",
+    "category": "Electronics",
+    "price": "₹1,499",
+    "image_url": "https://m.media-amazon.com/images/I/example-fireboltt-ninja.jpg",
+    "affiliate_url": "https://www.amazon.in/dp/B0EXAMPLE05?tag=YOURTAG-21",
+    "description": "1.83\" display smartwatch with Bluetooth calling, 100+ sports modes, and week-long battery life.",
+    "features": [
+      "1.83\" HD display",
+      "Bluetooth calling with built-in mic and speaker",
+      "100+ sports modes, SpO2 and heart-rate tracking",
+      "Up to 7 days battery life"
+    ]
+  },
+  {
+    "id": "B0EXAMPLE06",
+    "slug": "milton-thermosteel-flip-lid-flask-1l",
+    "title": "Milton Thermosteel Flip Lid Flask, 1 Litre",
+    "category": "Home & Kitchen",
+    "price": "₹899",
+    "image_url": "https://m.media-amazon.com/images/I/example-milton-flask.jpg",
+    "affiliate_url": "https://www.amazon.in/dp/B0EXAMPLE06?tag=YOURTAG-21",
+    "description": "Double-walled vacuum-insulated stainless steel flask that keeps drinks hot or cold for up to 24 hours.",
+    "features": [
+      "24-hour hot/cold retention",
+      "Food-grade 18/8 stainless steel",
+      "Leak-proof flip lid",
+      "1 litre capacity"
+    ]
+  }
+]

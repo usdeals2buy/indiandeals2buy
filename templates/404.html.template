@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — IndianDeals2Buy</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-logo" href="/">IndianDeals2Buy</a>
+</header>
+<main class="index-page">
+  <section class="intro">
+    <h1>Page not found</h1>
+    <p>That deal may have expired or moved. Browse the full list instead.</p>
+    <p><a class="buy-button" href="/">See all deals</a></p>
+  </section>
+</main>
+<footer class="site-footer">
+  <p class="disclosure">As an Amazon Associate I earn from qualifying purchases.</p>
+</footer>
+</body>
+</html>

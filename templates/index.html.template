@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IndianDeals2Buy — Hand-picked Amazon India Deals</title>
+<meta name="description" content="Hand-picked deals on Amazon India: electronics, home &amp; kitchen, books and more. {{product_count}} products and counting.">
+<link rel="canonical" href="https://indiandeals2buy.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="IndianDeals2Buy — Hand-picked Amazon India Deals">
+<meta property="og:description" content="Hand-picked deals on Amazon India. {{product_count}} products and counting.">
+<meta property="og:url" content="https://indiandeals2buy.com/">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-logo" href="index.html">IndianDeals2Buy</a>
+</header>
+<main class="index-page">
+  <section class="intro">
+    <h1>Hand-picked Amazon India deals</h1>
+    <p>{{product_count}} products across {{category_count}} categories, updated regularly. Every link goes straight to Amazon.in.</p>
+    <p class="disclosure">As an Amazon Associate I earn from qualifying purchases.</p>
+  </section>
+  <div class="search-box">
+    <input type="search" id="filter" placeholder="Type to filter deals&hellip;" aria-label="Filter deals" autocomplete="off">
+    <span id="filter-count" class="filter-count"></span>
+  </div>
+{{category_sections}}
+  <p id="no-results" class="no-results" hidden>No deals match your search.</p>
+</main>
+<footer class="site-footer">
+  <p class="disclosure">As an Amazon Associate I earn from qualifying purchases.</p>
+  <p>&copy; IndianDeals2Buy</p>
+</footer>
+<script>
+(function () {
+  var input = document.getElementById('filter');
+  if (!input) return;
+  var links = Array.prototype.slice.call(document.querySelectorAll('.product-list li'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.category-section'));
+  var noResults = document.getElementById('no-results');
+  var countEl = document.getElementById('filter-count');
+  var timer = null;
+  input.addEventListener('input', function () {
+    clearTimeout(timer);
+    timer = setTimeout(applyFilter, 120);
+  });
+  function applyFilter() {
+    var q = input.value.trim().toLowerCase();
+    var shown = 0;
+    for (var i = 0; i < links.length; i++) {
+      var match = !q || links[i].textContent.toLowerCase().indexOf(q) !== -1;
+      links[i].hidden = !match;
+      if (match) shown++;
+    }
+    for (var j = 0; j < sections.length; j++) {
+      var any = sections[j].querySelector('.product-list li:not([hidden])');
+      sections[j].hidden = !any;
+    }
+    noResults.hidden = shown > 0;
+    countEl.textContent = q ? shown + ' match' + (shown === 1 ? '' : 'es') : '';
+  }
+})();
+</script>
+</body>
+</html>
