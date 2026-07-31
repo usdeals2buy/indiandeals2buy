@@ -247,14 +247,31 @@ main { max-width: 68rem; margin: 0 auto; padding: 0 1.25rem 4rem; }
    the ~44px guideline on touch screens. Denser on pointer devices. */
 .product-list a {
   color: var(--text);
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: .7rem;
   flex: 1;
-  padding: .7rem 0;
+  min-width: 0;
+  padding: .55rem 0;
   min-height: 44px;
 }
 @media (pointer: fine) {
   .product-list a { padding: .3rem 0; min-height: 0; }
 }
+/* Lazy-loaded row thumbnails. Fixed box so rows never reflow as images
+   arrive, and the space simply stays empty for products without one. */
+.li-thumb {
+  flex: 0 0 auto;
+  width: 2.4rem;
+  height: 2.4rem;
+  object-fit: contain;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2px;
+}
+.li-thumb-empty { background: transparent; border-color: transparent; }
+.li-title { min-width: 0; }
 .product-list a:hover { color: var(--accent); }
 .product-list .li-price { color: var(--muted); font-size: .85rem; white-space: nowrap; }
 

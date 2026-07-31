@@ -98,6 +98,7 @@ def build():
     renamed_slugs = [] # (original, final)
     entries = []       # (category, title, price, slug) for the index
     featured = []      # products to render as cards at the top of the index
+    thumbs = {}        # slug -> escaped image URL, for index list thumbnails
     retagged = 0       # affiliate URLs rewritten to carry AFFILIATE_TAG
 
     for i, product in enumerate(products):
@@ -179,6 +180,8 @@ def build():
         })
         (products_dir / f"{slug}.html").write_text(page, encoding="utf-8")
         entries.append((category, title, price, slug))
+        if image_url:
+            thumbs[slug] = image_url
         if product.get("featured") and len(featured) < MAX_FEATURED:
             featured.append((title, category, price, slug, image_url, description))
 
@@ -192,8 +195,23 @@ def build():
         items = []
         for title, price, slug in sorted(by_category[category], key=lambda p: p[0].lower()):
             price_span = f' <span class="li-price">{html.escape(price)}</span>' if price else ""
+            # Thumbnails are lazy-loaded, so thousands of rows cost nothing until
+            # they scroll into view. Once any product has an image, rows without
+            # one get an empty spacer so titles stay aligned in a half-filled
+            # data file; with no images at all, no thumb column is rendered.
+            thumb = thumbs.get(slug, "")
+            if thumb:
+                thumb_html = (
+                    f'<img class="li-thumb" src="{thumb}" alt="" loading="lazy" '
+                    f'decoding="async" referrerpolicy="no-referrer">'
+                )
+            elif thumbs:
+                thumb_html = '<span class="li-thumb li-thumb-empty"></span>'
+            else:
+                thumb_html = ""
             items.append(
-                f'      <li><a href="products/{slug}.html">{html.escape(title)}</a>{price_span}</li>'
+                f'      <li><a href="products/{slug}.html">{thumb_html}'
+                f'<span class="li-title">{html.escape(title)}</span></a>{price_span}</li>'
             )
         sections.append(
             f'  <section class="category-section" id="cat-{slugify(category)}">\n'
