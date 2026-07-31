@@ -15,6 +15,7 @@ import shutil
 import sys
 import unicodedata
 from pathlib import Path
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 ROOT = Path(__file__).resolve().parent
 DATA_FILE = ROOT / "data" / "products.json"
@@ -22,7 +23,36 @@ TEMPLATE_DIR = ROOT / "templates"
 OUTPUT_DIR = ROOT / "docs"
 SITE_URL = "https://indiandeals2buy.com"
 
+# Amazon Associates tag. Every amazon.* link is rewritten to carry it, so the
+# data file can hold plain product URLs and still earn correctly.
+AFFILIATE_TAG = "onlinedealsat-21"
+
+# Products shown as image cards at the top of the index. Everything else stays
+# a plain text link so the page stays light with thousands of products.
+MAX_FEATURED = 12
+
 REQUIRED_FIELDS = ("title", "affiliate_url")
+
+
+def apply_affiliate_tag(url):
+    """Force our Associates tag onto an Amazon URL. Returns (url, was_changed).
+
+    Non-Amazon URLs are left untouched — this should never silently rewrite a
+    link to somewhere it does not belong.
+    """
+    parts = urlsplit(url)
+    if not parts.netloc or "amazon." not in parts.netloc.lower():
+        return url, False
+    params = [
+        (k, v)
+        for k, v in parse_qsl(parts.query, keep_blank_values=True)
+        if k.lower() != "tag"
+    ]
+    params.append(("tag", AFFILIATE_TAG))
+    tagged = urlunsplit(
+        (parts.scheme, parts.netloc, parts.path, urlencode(params), parts.fragment)
+    )
+    return tagged, tagged != url
 
 
 def slugify(text):
@@ -67,6 +97,8 @@ def build():
     skipped = []       # (index, reason)
     renamed_slugs = [] # (original, final)
     entries = []       # (category, title, price, slug) for the index
+    featured = []      # products to render as cards at the top of the index
+    retagged = 0       # affiliate URLs rewritten to carry AFFILIATE_TAG
 
     for i, product in enumerate(products):
         if not isinstance(product, dict):
@@ -106,6 +138,10 @@ def build():
         if len(meta_description) > 160:
             meta_description = meta_description[:157].rstrip() + "…"
 
+        affiliate_url, changed = apply_affiliate_tag(str(product["affiliate_url"]).strip())
+        if changed:
+            retagged += 1
+
         # Products without an image skip the image column entirely rather than
         # leaving a broken <img> and a large blank gap in the layout.
         image_url = html.escape(str(product.get("image_url", "")).strip(), quote=True)
@@ -121,20 +157,30 @@ def build():
             image_block = ""
             og_image_tag = ""
 
+        # An unverified price is worse than no price — Amazon requires displayed
+        # prices to be current, so products without one point at Amazon instead.
+        if price:
+            price_block = f'      <p class="price">{html.escape(price)}</p>\n'
+        else:
+            price_block = '      <p class="price-note">See current price on Amazon</p>\n'
+
         page = render(product_tpl, {
             "title": html.escape(title),
             "category": html.escape(category),
             "price": html.escape(price),
             "description": html.escape(description),
             "features_html": features_html,
+            "price_block": price_block,
             "image_block": image_block,
             "og_image_tag": og_image_tag,
-            "affiliate_url": html.escape(str(product["affiliate_url"]).strip(), quote=True),
+            "affiliate_url": html.escape(affiliate_url, quote=True),
             "meta_description": html.escape(meta_description),
             "canonical_url": f"{SITE_URL}/products/{slug}.html",
         })
         (products_dir / f"{slug}.html").write_text(page, encoding="utf-8")
         entries.append((category, title, price, slug))
+        if product.get("featured") and len(featured) < MAX_FEATURED:
+            featured.append((title, category, price, slug, image_url, description))
 
     # Index: category sections, alphabetical, products alphabetical within each.
     by_category = {}
@@ -150,16 +196,58 @@ def build():
                 f'      <li><a href="products/{slug}.html">{html.escape(title)}</a>{price_span}</li>'
             )
         sections.append(
-            f'  <section class="category-section">\n'
-            f'    <h2>{html.escape(category)}</h2>\n'
+            f'  <section class="category-section" id="cat-{slugify(category)}">\n'
+            f'    <h2 class="section-heading">{html.escape(category)}</h2>\n'
             f'    <ul class="product-list">\n' + "\n".join(items) + "\n"
             f'    </ul>\n'
             f'  </section>'
         )
 
+    # Featured cards. Products with no image get a lettered tile instead of a
+    # broken <img>, so a half-filled data file still looks deliberate.
+    cards = []
+    for title, category, price, slug, image_url, description in featured:
+        if image_url:
+            media = (
+                f'<div class="card-media"><img src="{image_url}" '
+                f'alt="{html.escape(title)}" loading="lazy" '
+                f'referrerpolicy="no-referrer"></div>'
+            )
+        else:
+            initial = html.escape(title[:1].upper() or "?")
+            media = f'<div class="card-media card-media-empty"><span>{initial}</span></div>'
+        price_html = f'<span class="card-price">{html.escape(price)}</span>' if price else ""
+        cards.append(
+            f'      <a class="card" href="products/{slug}.html">\n'
+            f'        {media}\n'
+            f'        <div class="card-body">\n'
+            f'          <span class="card-cat">{html.escape(category)}</span>\n'
+            f'          <h3 class="card-title">{html.escape(title)}</h3>\n'
+            f'          {price_html}\n'
+            f'        </div>\n'
+            f'      </a>'
+        )
+    featured_section = ""
+    if cards:
+        featured_section = (
+            '  <section class="featured">\n'
+            '    <h2 class="section-heading">Featured picks</h2>\n'
+            '    <div class="card-grid">\n' + "\n".join(cards) + "\n"
+            '    </div>\n'
+            '  </section>'
+        )
+
+    chips = "\n".join(
+        f'      <a class="chip" href="#cat-{slugify(c)}">{html.escape(c)} '
+        f'<span>{len(by_category[c])}</span></a>'
+        for c in sorted(by_category, key=str.lower)
+    )
+
     index_page = render(index_tpl, {
         "product_count": f"{len(entries):,}",
         "category_count": str(len(by_category)),
+        "featured_section": featured_section,
+        "category_chips": chips,
         "category_sections": "\n".join(sections),
     })
     (OUTPUT_DIR / "index.html").write_text(index_page, encoding="utf-8")
@@ -186,10 +274,15 @@ def build():
 
     # Static files served alongside the generated pages.
     shutil.copy(ROOT / "assets" / "style.css", OUTPUT_DIR / "style.css")
-    for name in ("CNAME", ".nojekyll"):
-        src = ROOT / name
-        if src.exists():
-            shutil.copy(src, OUTPUT_DIR / name)
+    # Written without a trailing newline to match what GitHub's custom-domain UI
+    # commits, so the file does not flip-flop between builds and UI edits.
+    cname_src = ROOT / "CNAME"
+    if cname_src.exists():
+        (OUTPUT_DIR / "CNAME").write_text(
+            cname_src.read_text(encoding="utf-8").strip(), encoding="utf-8"
+        )
+    if (ROOT / ".nojekyll").exists():
+        shutil.copy(ROOT / ".nojekyll", OUTPUT_DIR / ".nojekyll")
 
     # Remove product pages left over from deleted/renamed products.
     stale = [p for p in products_dir.glob("*.html") if p.stem not in seen_slugs]
@@ -197,7 +290,8 @@ def build():
         path.unlink()
 
     print(f"Built {len(entries)} product pages + index.html into {OUTPUT_DIR.relative_to(ROOT)}/")
-    print(f"Categories: {len(by_category)}")
+    print(f"Categories: {len(by_category)}   Featured cards: {len(featured)}")
+    print(f"Affiliate tag: {AFFILIATE_TAG} ({retagged} URL(s) rewritten to carry it)")
     if renamed_slugs:
         print(f"Duplicate slugs renamed ({len(renamed_slugs)}):")
         for original, final in renamed_slugs:
