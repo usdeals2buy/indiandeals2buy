@@ -69,12 +69,54 @@ DEFAULT_VERSION = "3.2"  # amazon.in
 BATCH_SIZE = 10          # getItems accepts at most 10 ASINs
 REQUEST_INTERVAL = 1.1   # be polite; back off further on 429
 
+# Resource names are lowerCamelCase and validated server-side against a fixed
+# enum. This is the full accepted set, so a typo fails locally with a useful
+# message instead of a 400 from the API.
+VALID_RESOURCES = {
+    "browseNodeInfo.browseNodes",
+    "browseNodeInfo.browseNodes.ancestor",
+    "browseNodeInfo.browseNodes.salesRank",
+    "browseNodeInfo.websiteSalesRank",
+    "customerReviews.count",
+    "customerReviews.starRating",
+    "images.primary.small",
+    "images.primary.medium",
+    "images.primary.large",
+    "images.primary.highRes",
+    "images.variants.small",
+    "images.variants.medium",
+    "images.variants.large",
+    "images.variants.highRes",
+    "itemInfo.byLineInfo",
+    "itemInfo.classifications",
+    "itemInfo.contentInfo",
+    "itemInfo.contentRating",
+    "itemInfo.externalIds",
+    "itemInfo.features",
+    "itemInfo.manufactureInfo",
+    "itemInfo.productInfo",
+    "itemInfo.technicalInfo",
+    "itemInfo.title",
+    "itemInfo.tradeInInfo",
+    "offersV2.listings.availability",
+    "offersV2.listings.condition",
+    "offersV2.listings.dealDetails",
+    "offersV2.listings.isBuyBoxWinner",
+    "offersV2.listings.loyaltyPoints",
+    "offersV2.listings.merchantInfo",
+    "offersV2.listings.price",
+    "offersV2.listings.type",
+    "parentASIN",
+}
+
 RESOURCES = [
-    "ItemInfo.Title",
-    "ItemInfo.Features",
-    "Images.Primary.Large",
-    "OffersV2.Listings.Price",
-    "OffersV2.Listings.Availability",
+    "itemInfo.title",
+    "itemInfo.features",
+    "itemInfo.byLineInfo",
+    "images.primary.large",
+    "offersV2.listings.price",
+    "offersV2.listings.availability",
+    "offersV2.listings.dealDetails",
 ]
 
 
@@ -128,6 +170,12 @@ def get_token(client_id, client_secret, version):
 
 def get_items(asins, auth_header, partner_tag, raw=False):
     """Call getItems for up to BATCH_SIZE ASINs. Returns the parsed response."""
+    unknown = [r for r in RESOURCES if r not in VALID_RESOURCES]
+    if unknown:
+        raise SystemExit(
+            "error: unknown resource name(s): " + ", ".join(unknown) +
+            "\nResource names are lowerCamelCase, e.g. itemInfo.title."
+        )
     payload = json.dumps(
         {
             "itemIds": list(asins),
