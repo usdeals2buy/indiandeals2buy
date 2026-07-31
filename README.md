@@ -54,6 +54,32 @@ Only `title` and `affiliate_url` are required; anything else is optional.
   link so the page remains light with thousands of products.
 - **`slug`** is derived from the title when omitted.
 
+### Or pull them from the Product Advertising API
+
+`fetch_products.py` fills in verified titles, current prices, licensed image
+URLs and feature bullets, so you only supply ASINs. Standard library only.
+
+```sh
+export PAAPI_ACCESS_KEY="AKIA..."      # never commit these
+export PAAPI_SECRET_KEY="..."
+
+python3 fetch_products.py B08XYZ1234 B07ABC5678   # add or update
+python3 fetch_products.py --from-file asins.txt   # one ASIN per line
+python3 fetch_products.py --refresh               # re-fetch everything
+python3 fetch_products.py --refresh --dry-run     # preview changes
+```
+
+`category`, `featured` and `slug` are yours — the fetcher never overwrites
+them, and it will not blank an existing value with an empty API field. New
+products arrive with an empty category, which the script calls out.
+
+Using the API also settles the image-licensing question below: the URLs it
+returns are the ones Amazon intends you to display.
+
+**Re-run `--refresh` on a schedule.** Prices go stale, and the Associates
+agreement expects displayed prices to be current. Anything fetched more than
+a day or so ago is worth refreshing before it is published.
+
 2. Run the build and push:
 
 ```sh
