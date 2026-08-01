@@ -32,10 +32,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 DATA_FILE = ROOT / "data" / "products.json"
 
-# /dp/ASIN, /gp/product/ASIN, /product/ASIN, ?asin=ASIN, or a bare ASIN.
+# Every Amazon link shape that carries an ASIN, including the /gp/aw/d/ form
+# the mobile app produces and the /dp/product/ variant some share sheets emit.
 ASIN_PATTERNS = [
     r"/dp/([A-Z0-9]{10})",
     r"/gp/product/([A-Z0-9]{10})",
+    r"/gp/aw/d/([A-Z0-9]{10})",
+    r"/dp/product/([A-Z0-9]{10})",
     r"/product/([A-Z0-9]{10})",
     r"[?&]asin=([A-Z0-9]{10})",
     r"^([A-Z0-9]{10})$",
