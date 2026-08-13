@@ -28,9 +28,10 @@ SITE_URL = "https://indiandeals2buy.com"
 # the files whose category actually has products are copied to docs/categories/.
 CATEGORY_IMAGE_DIR = ROOT / "assets" / "categories"
 
-# Tried in order, so dropping a hand-made home-kitchen.png next to the SVG
-# replaces it without touching this file. Raster art should be about 688x528
-# (2x the SVG viewBox) so it stays sharp on a retina screen.
+# Tried in order, so dropping a hand-made home-kitchen.png in replaces a drawn
+# home-kitchen.svg without touching this file. New art should match the existing
+# tiles: 344x272, the illustration on a rounded #f1ede3 card with the category
+# name set underneath it, since the tile markup adds no label of its own.
 CATEGORY_IMAGE_EXTENSIONS = (".png", ".jpg", ".jpeg", ".webp", ".svg")
 
 # Shown next to the logo on every page. Kept merchant-neutral so it still reads

@@ -173,12 +173,14 @@ main { max-width: 68rem; margin: 0 auto; padding: 0 1.25rem 4rem; }
 .cat-tile .cat-tile-name {
   display: block;
   width: 100%;
-  aspect-ratio: 344 / 264;
-  border: 1px solid var(--border);
+  aspect-ratio: 344 / 272;
   border-radius: var(--radius);
   transition: border-color .16s ease, box-shadow .16s ease;
 }
+/* The artwork draws its own card and drop shadow, so the tile adds no border
+   of its own — one would read as a frame around a frame. */
 .cat-tile img { object-fit: cover; }
+.cat-tile .cat-tile-name { border: 1px solid var(--border); }
 .cat-tile:hover img,
 .cat-tile:hover .cat-tile-name {
   border-color: var(--accent);
