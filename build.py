@@ -23,9 +23,60 @@ TEMPLATE_DIR = ROOT / "templates"
 OUTPUT_DIR = ROOT / "docs"
 SITE_URL = "https://indiandeals2buy.com"
 
+# Artwork for the "Shop by category" tiles, named after the slugified category:
+# assets/categories/home-kitchen.svg serves the "Home & Kitchen" category. Only
+# the files whose category actually has products are copied to docs/categories/.
+CATEGORY_IMAGE_DIR = ROOT / "assets" / "categories"
+
+# Tried in order, so dropping a hand-made home-kitchen.png in replaces a drawn
+# home-kitchen.svg without touching this file. New art should match the existing
+# tiles: 344x272, the illustration on a rounded #f1ede3 card with the category
+# name set underneath it, since the tile markup adds no label of its own.
+CATEGORY_IMAGE_EXTENSIONS = (".png", ".jpg", ".jpeg", ".webp", ".svg")
+
+# Shown next to the logo on every page. Kept merchant-neutral so it still reads
+# correctly as stores beyond Amazon are added.
+SITE_TAGLINE = "Hand-picked deals from India’s top stores"
+
 # Amazon Associates tag. Every amazon.* link is rewritten to carry it, so the
 # data file can hold plain product URLs and still earn correctly.
 AFFILIATE_TAG = "onlinedealsat-21"
+
+# Google AdSense publisher ID, e.g. "ca-pub-1234567890123456". Leave empty to
+# build the site with no ad code at all. When set, every page gets the AdSense
+# loader (which is also what Auto ads and site verification use) and docs/ads.txt
+# is generated — AdSense will not serve ads without that file.
+ADSENSE_CLIENT = "ca-pub-9918193591458555"
+
+# Published on the contact page and in the privacy policy. AdSense reviewers
+# look for a reachable address here — make sure this mailbox actually works.
+CONTACT_EMAIL = "contact@indiandeals2buy.com"
+
+# Shown at the top of the privacy policy; bump it whenever the policy changes.
+POLICY_UPDATED = "7 August 2026"
+
+# Standalone content pages, built from templates/pages/<slug>.html into docs/.
+# (slug, footer label, page title, meta description)
+PAGES = [
+    (
+        "about",
+        "About",
+        "About",
+        "Who picks the deals on IndianDeals2Buy, why prices move, and how the site makes money.",
+    ),
+    (
+        "contact",
+        "Contact",
+        "Contact",
+        "How to reach IndianDeals2Buy about corrections, broken links, suggestions or removal requests.",
+    ),
+    (
+        "privacy",
+        "Privacy",
+        "Privacy Policy",
+        "What IndianDeals2Buy collects, the cookies Google and Amazon set, and how to opt out of personalised ads.",
+    ),
+]
 
 # Products shown as image cards at the top of the index. Everything else stays
 # a plain text link so the page stays light with thousands of products.
@@ -65,6 +116,50 @@ def slugify(text):
     return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
 
 
+def adsense_head():
+    """The AdSense loader <script>, or "" when no publisher ID is configured."""
+    if not ADSENSE_CLIENT:
+        return ""
+    if not re.fullmatch(r"ca-pub-\d{16}", ADSENSE_CLIENT):
+        sys.exit(
+            f"error: ADSENSE_CLIENT must look like ca-pub-1234567890123456, "
+            f"got {ADSENSE_CLIENT!r}"
+        )
+    return (
+        '<script async src="https://pagead2.googlesyndication.com/pagead/js/'
+        f'adsbygoogle.js?client={ADSENSE_CLIENT}" crossorigin="anonymous"></script>\n'
+    )
+
+
+def footer_nav(prefix=""):
+    """Footer links to the standalone pages.
+
+    `prefix` makes the hrefs resolve from whatever directory the page lives in —
+    product pages sit one level down and need "../".
+    """
+    links = [f'<a href="{prefix}index.html">All deals</a>'] + [
+        f'<a href="{prefix}{slug}.html">{label}</a>' for slug, label, _, _ in PAGES
+    ]
+    return f'  <nav class="footer-nav" aria-label="Site">{"".join(links)}</nav>\n'
+
+
+def category_image(category):
+    """Path to the tile artwork for `category`, or None when there is none.
+
+    Categories added to products.json without matching artwork are not an
+    error — they fall back to a text tile — so a new category never blocks a
+    build while its icon is being drawn.
+    """
+    slug = slugify(category)
+    if not slug:
+        return None
+    for ext in CATEGORY_IMAGE_EXTENSIONS:
+        candidate = CATEGORY_IMAGE_DIR / f"{slug}{ext}"
+        if candidate.exists():
+            return candidate
+    return None
+
+
 def render(template, context):
     """Fill {{placeholder}} slots. Values must already be HTML-escaped."""
     return re.sub(
@@ -87,11 +182,15 @@ def build():
 
     product_tpl = (TEMPLATE_DIR / "product.html.template").read_text(encoding="utf-8")
     index_tpl = (TEMPLATE_DIR / "index.html.template").read_text(encoding="utf-8")
+    page_tpl = (TEMPLATE_DIR / "page.html.template").read_text(encoding="utf-8")
     notfound_path = TEMPLATE_DIR / "404.html.template"
     notfound_tpl = notfound_path.read_text(encoding="utf-8") if notfound_path.exists() else ""
 
     products_dir = OUTPUT_DIR / "products"
     products_dir.mkdir(parents=True, exist_ok=True)
+
+    ads_head = adsense_head()
+    nav_root = footer_nav()
 
     seen_slugs = set()
     skipped = []       # (index, reason)
@@ -177,6 +276,8 @@ def build():
             "affiliate_url": html.escape(affiliate_url, quote=True),
             "meta_description": html.escape(meta_description),
             "canonical_url": f"{SITE_URL}/products/{slug}.html",
+            "adsense_head": ads_head,
+            "footer_nav": footer_nav("../"),
         })
         (products_dir / f"{slug}.html").write_text(page, encoding="utf-8")
         entries.append((category, title, price, slug))
@@ -261,20 +362,114 @@ def build():
         for c in sorted(by_category, key=str.lower)
     )
 
+    # "Shop by category" tiles. The artwork already carries the category name,
+    # so the tile itself adds only the deal count; the accessible name comes
+    # from the link's aria-label rather than the (decorative) <img> alt.
+    category_images_dir = OUTPUT_DIR / "categories"
+    tiles = []
+    used_images = set()
+    for category in sorted(by_category, key=str.lower):
+        count = len(by_category[category])
+        label = html.escape(category)
+        count_text = f'{count} deal{"" if count == 1 else "s"}'
+        source = category_image(category)
+        if source:
+            category_images_dir.mkdir(parents=True, exist_ok=True)
+            shutil.copy(source, category_images_dir / source.name)
+            used_images.add(source.name)
+            media = (
+                f'<img src="categories/{source.name}" alt="" '
+                f'loading="lazy" decoding="async">'
+            )
+            extra_class = ""
+        else:
+            media = f'<span class="cat-tile-name">{label}</span>'
+            extra_class = " cat-tile-plain"
+        tiles.append(
+            f'      <a class="cat-tile{extra_class}" href="#cat-{slugify(category)}" '
+            f'aria-label="{label} — {count_text}">\n'
+            f'        {media}\n'
+            f'        <span class="cat-tile-count">{count_text}</span>\n'
+            f'      </a>'
+        )
+    category_tiles = ""
+    if tiles:
+        category_tiles = (
+            '  <section class="cat-tiles">\n'
+            '    <h2 class="section-heading">Shop by category</h2>\n'
+            '    <div class="cat-grid">\n' + "\n".join(tiles) + "\n"
+            '    </div>\n'
+            '  </section>'
+        )
+
+    # Drop artwork for categories that no longer have any products.
+    if category_images_dir.exists():
+        for path in category_images_dir.iterdir():
+            if path.is_file() and path.name not in used_images:
+                path.unlink()
+
+    # The hero used to promise "no tracking scripts" and a zero-tracker count.
+    # Ad code makes that untrue, so the claim is only made when there is none.
+    if ADSENSE_CLIENT:
+        hero_sub = (
+            "Every product here is picked by hand and links straight to the "
+            "store — no clutter, no clickbait."
+        )
+        stat_third = '<div class="stat"><strong>Direct</strong><span>store links</span></div>'
+    else:
+        hero_sub = (
+            "Every product here is picked by hand and links straight to the "
+            "store — no clutter, no clickbait, no tracking scripts."
+        )
+        stat_third = '<div class="stat"><strong>0</strong><span>trackers</span></div>'
+
     index_page = render(index_tpl, {
         "product_count": f"{len(entries):,}",
         "category_count": str(len(by_category)),
         "featured_section": featured_section,
         "category_chips": chips,
+        "category_tiles": category_tiles,
         "category_sections": "\n".join(sections),
+        "adsense_head": ads_head,
+        "footer_nav": nav_root,
+        "tagline": html.escape(SITE_TAGLINE),
+        "hero_sub": hero_sub,
+        "stat_third": stat_third,
     })
     (OUTPUT_DIR / "index.html").write_text(index_page, encoding="utf-8")
 
+    # Standalone content pages (about / contact / privacy). AdSense expects
+    # these to exist and to be reachable, hence the footer nav on every page.
+    for slug, _label, page_title, page_desc in PAGES:
+        body_path = TEMPLATE_DIR / "pages" / f"{slug}.html"
+        if not body_path.exists():
+            sys.exit(f"error: {body_path} not found")
+        body = render(body_path.read_text(encoding="utf-8"), {
+            "contact_email": html.escape(CONTACT_EMAIL),
+            "last_updated": html.escape(POLICY_UPDATED),
+        })
+        (OUTPUT_DIR / f"{slug}.html").write_text(
+            render(page_tpl, {
+                "title": html.escape(page_title),
+                "meta_description": html.escape(page_desc),
+                "canonical_url": f"{SITE_URL}/{slug}.html",
+                "content": body,
+                "adsense_head": ads_head,
+                "footer_nav": nav_root,
+                "tagline": html.escape(SITE_TAGLINE),
+            }),
+            encoding="utf-8",
+        )
+
     # sitemap.xml + robots.txt so several thousand product pages get crawled.
-    urls = [f"  <url><loc>{SITE_URL}/</loc></url>"] + [
-        f"  <url><loc>{SITE_URL}/products/{slug}.html</loc></url>"
-        for _, _, _, slug in sorted(entries, key=lambda e: e[3])
-    ]
+    urls = (
+        [f"  <url><loc>{SITE_URL}/</loc></url>"]
+        + [f"  <url><loc>{SITE_URL}/{slug}.html</loc></url>" for slug, _, _, _ in PAGES]
+        + [
+            f"  <url><loc>{SITE_URL}/products/{slug}.html</loc></url>"
+            for _, _, _, slug in sorted(entries, key=lambda e: e[3])
+        ]
+    )
     (OUTPUT_DIR / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
@@ -288,7 +483,25 @@ def build():
 
     # GitHub Pages serves this for any unknown path.
     if notfound_tpl:
-        (OUTPUT_DIR / "404.html").write_text(notfound_tpl, encoding="utf-8")
+        (OUTPUT_DIR / "404.html").write_text(
+            render(notfound_tpl, {
+                "adsense_head": ads_head,
+                # Served from any depth, so its links must be absolute.
+                "footer_nav": footer_nav("/"),
+            }),
+            encoding="utf-8",
+        )
+
+    # AdSense refuses to serve ads on a domain without a matching ads.txt at the
+    # site root, so it is generated from the same publisher ID.
+    ads_txt = OUTPUT_DIR / "ads.txt"
+    if ADSENSE_CLIENT:
+        publisher = ADSENSE_CLIENT.replace("ca-pub-", "pub-")
+        ads_txt.write_text(
+            f"google.com, {publisher}, DIRECT, f08c47fec0942fa0\n", encoding="utf-8"
+        )
+    elif ads_txt.exists():
+        ads_txt.unlink()
 
     # Static files served alongside the generated pages.
     shutil.copy(ROOT / "assets" / "style.css", OUTPUT_DIR / "style.css")
@@ -309,7 +522,11 @@ def build():
 
     print(f"Built {len(entries)} product pages + index.html into {OUTPUT_DIR.relative_to(ROOT)}/")
     print(f"Categories: {len(by_category)}   Featured cards: {len(featured)}")
+    print(f"Category tiles: {len(used_images)} with artwork, "
+          f"{len(by_category) - len(used_images)} text-only")
     print(f"Affiliate tag: {AFFILIATE_TAG} ({retagged} URL(s) rewritten to carry it)")
+    print(f"Content pages: {', '.join(slug + '.html' for slug, _, _, _ in PAGES)}")
+    print(f"AdSense: {ADSENSE_CLIENT + ' (+ ads.txt)' if ADSENSE_CLIENT else 'not configured'}")
     if renamed_slugs:
         print(f"Duplicate slugs renamed ({len(renamed_slugs)}):")
         for original, final in renamed_slugs:

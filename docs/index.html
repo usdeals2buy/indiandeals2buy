@@ -3,32 +3,33 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IndianDeals2Buy — Hand-picked Amazon India Deals</title>
-<meta name="description" content="Hand-picked deals on Amazon India: electronics, home &amp; kitchen, books and more. 19 products and counting.">
+<title>IndianDeals2Buy — Hand-picked Deals from India's Top Stores</title>
+<meta name="description" content="Hand-picked deals from India's top online stores: electronics, home &amp; kitchen, books and more. 19 products and counting.">
 <link rel="canonical" href="https://indiandeals2buy.com/">
 <meta name="theme-color" content="#0f172a">
 <meta property="og:type" content="website">
-<meta property="og:title" content="IndianDeals2Buy — Hand-picked Amazon India Deals">
-<meta property="og:description" content="Hand-picked deals on Amazon India. 19 products and counting.">
+<meta property="og:title" content="IndianDeals2Buy — Hand-picked Deals from India's Top Stores">
+<meta property="og:description" content="Hand-picked deals from India's top online stores. 19 products and counting.">
 <meta property="og:url" content="https://indiandeals2buy.com/">
 <link rel="stylesheet" href="style.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9918193591458555" crossorigin="anonymous"></script>
 </head>
 <body>
 <header class="site-header">
   <div class="header-inner">
     <a class="site-logo" href="index.html">Indian<span>Deals</span>2Buy</a>
-    <p class="header-tag">Hand-picked Amazon India deals</p>
+    <p class="header-tag">Hand-picked deals from India’s top stores</p>
   </div>
 </header>
 
 <main class="index-page">
   <section class="hero">
     <h1>Deals worth your money.</h1>
-    <p class="hero-sub">Every product here is picked by hand and links straight to Amazon.in — no clutter, no clickbait, no tracking scripts.</p>
+    <p class="hero-sub">Every product here is picked by hand and links straight to the store — no clutter, no clickbait.</p>
     <div class="stats">
       <div class="stat"><strong>19</strong><span>products</span></div>
       <div class="stat"><strong>6</strong><span>categories</span></div>
-      <div class="stat"><strong>0</strong><span>trackers</span></div>
+      <div class="stat"><strong>Direct</strong><span>store links</span></div>
     </div>
   </section>
 
@@ -47,6 +48,36 @@
       <a class="chip" href="#cat-sports-fitness">Sports &amp; Fitness <span>1</span></a>
     </nav>
   </div>
+
+  <section class="cat-tiles">
+    <h2 class="section-heading">Shop by category</h2>
+    <div class="cat-grid">
+      <a class="cat-tile" href="#cat-bags-luggage" aria-label="Bags &amp; Luggage — 1 deal">
+        <img src="categories/bags-luggage.png" alt="" loading="lazy" decoding="async">
+        <span class="cat-tile-count">1 deal</span>
+      </a>
+      <a class="cat-tile" href="#cat-books" aria-label="Books — 2 deals">
+        <img src="categories/books.png" alt="" loading="lazy" decoding="async">
+        <span class="cat-tile-count">2 deals</span>
+      </a>
+      <a class="cat-tile" href="#cat-electronics" aria-label="Electronics — 8 deals">
+        <img src="categories/electronics.png" alt="" loading="lazy" decoding="async">
+        <span class="cat-tile-count">8 deals</span>
+      </a>
+      <a class="cat-tile" href="#cat-home-kitchen" aria-label="Home &amp; Kitchen — 5 deals">
+        <img src="categories/home-kitchen.png" alt="" loading="lazy" decoding="async">
+        <span class="cat-tile-count">5 deals</span>
+      </a>
+      <a class="cat-tile" href="#cat-personal-care" aria-label="Personal Care — 2 deals">
+        <img src="categories/personal-care.svg" alt="" loading="lazy" decoding="async">
+        <span class="cat-tile-count">2 deals</span>
+      </a>
+      <a class="cat-tile" href="#cat-sports-fitness" aria-label="Sports &amp; Fitness — 1 deal">
+        <img src="categories/sports-fitness.svg" alt="" loading="lazy" decoding="async">
+        <span class="cat-tile-count">1 deal</span>
+      </a>
+    </div>
+  </section>
 
   <section class="featured">
     <h2 class="section-heading">Featured picks</h2>
@@ -174,6 +205,7 @@
 </main>
 
 <footer class="site-footer">
+  <nav class="footer-nav" aria-label="Site"><a href="index.html">All deals</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a></nav>
   <p class="disclosure">As an Amazon Associate I earn from qualifying purchases.</p>
   <p class="muted">Prices shown were accurate at time of listing and may have changed. Check Amazon for the current price.</p>
   <p class="muted">&copy; IndianDeals2Buy</p>
@@ -187,6 +219,8 @@
   var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
   var sections = Array.prototype.slice.call(document.querySelectorAll('.category-section'));
   var featured = document.querySelector('.featured');
+  // The tiles link to category anchors, which are hidden while filtering.
+  var catTiles = document.querySelector('.cat-tiles');
   var noResults = document.getElementById('no-results');
   var countEl = document.getElementById('filter-count');
   var timer = null;
@@ -215,6 +249,7 @@
       sections[s].hidden = !sections[s].querySelector('.product-list li:not([hidden])');
     }
     if (featured) featured.hidden = !!q && !featured.querySelector('.card:not([hidden])');
+    if (catTiles) catTiles.hidden = !!q;
     noResults.hidden = shown > 0;
     countEl.textContent = q ? shown + ' match' + (shown === 1 ? '' : 'es') : '';
   }

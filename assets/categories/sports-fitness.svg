@@ -1,0 +1,27 @@
+<!-- Drawn to match the hand-made PNG tiles: same 344x272 frame, card inset,
+     palette (#f1ede3 card, #eda27c art, #8d8a82 label) and label placement. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 344 272" width="344" height="272" role="img" aria-label="Sports &amp; Fitness">
+  <defs>
+    <filter id="tile-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#8c8880" flood-opacity=".35"/>
+    </filter>
+  </defs>
+  <rect width="344" height="272" fill="#f6f7f2"/>
+  <rect x="5" y="4" width="333" height="262" rx="14" fill="#f1ede3" filter="url(#tile-shadow)"/>
+  <!-- volleyball -->
+  <g fill="none" stroke="#eda27c" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="112" cy="122" r="56"/>
+    <path d="M112 66 C84 92 78 142 96 174"/>
+    <path d="M168 122 C134 116 92 132 70 162"/>
+    <path d="M144 170 C140 134 116 96 78 84"/>
+  </g>
+  <!-- dumbbell -->
+  <g fill="#eda27c">
+    <rect x="196" y="90" width="20" height="64" rx="8"/>
+    <rect x="222" y="102" width="16" height="40" rx="7"/>
+    <rect x="238" y="114" width="44" height="16" rx="8"/>
+    <rect x="266" y="102" width="16" height="40" rx="7"/>
+    <rect x="288" y="90" width="20" height="64" rx="8"/>
+  </g>
+  <text x="172" y="246" text-anchor="middle" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="21" letter-spacing="2" fill="#8d8a82">SPORTS &amp; FITNESS</text>
+</svg>

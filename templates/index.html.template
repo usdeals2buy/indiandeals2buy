@@ -3,32 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IndianDeals2Buy — Hand-picked Amazon India Deals</title>
-<meta name="description" content="Hand-picked deals on Amazon India: electronics, home &amp; kitchen, books and more. {{product_count}} products and counting.">
+<title>IndianDeals2Buy — Hand-picked Deals from India's Top Stores</title>
+<meta name="description" content="Hand-picked deals from India's top online stores: electronics, home &amp; kitchen, books and more. {{product_count}} products and counting.">
 <link rel="canonical" href="https://indiandeals2buy.com/">
 <meta name="theme-color" content="#0f172a">
 <meta property="og:type" content="website">
-<meta property="og:title" content="IndianDeals2Buy — Hand-picked Amazon India Deals">
-<meta property="og:description" content="Hand-picked deals on Amazon India. {{product_count}} products and counting.">
+<meta property="og:title" content="IndianDeals2Buy — Hand-picked Deals from India's Top Stores">
+<meta property="og:description" content="Hand-picked deals from India's top online stores. {{product_count}} products and counting.">
 <meta property="og:url" content="https://indiandeals2buy.com/">
 <link rel="stylesheet" href="style.css">
-</head>
+{{adsense_head}}</head>
 <body>
 <header class="site-header">
   <div class="header-inner">
     <a class="site-logo" href="index.html">Indian<span>Deals</span>2Buy</a>
-    <p class="header-tag">Hand-picked Amazon India deals</p>
+    <p class="header-tag">{{tagline}}</p>
   </div>
 </header>
 
 <main class="index-page">
   <section class="hero">
     <h1>Deals worth your money.</h1>
-    <p class="hero-sub">Every product here is picked by hand and links straight to Amazon.in — no clutter, no clickbait, no tracking scripts.</p>
+    <p class="hero-sub">{{hero_sub}}</p>
     <div class="stats">
       <div class="stat"><strong>{{product_count}}</strong><span>products</span></div>
       <div class="stat"><strong>{{category_count}}</strong><span>categories</span></div>
-      <div class="stat"><strong>0</strong><span>trackers</span></div>
+      {{stat_third}}
     </div>
   </section>
 
@@ -43,6 +43,8 @@
     </nav>
   </div>
 
+{{category_tiles}}
+
 {{featured_section}}
 
   <section class="all-deals">
@@ -53,7 +55,7 @@
 </main>
 
 <footer class="site-footer">
-  <p class="disclosure">As an Amazon Associate I earn from qualifying purchases.</p>
+{{footer_nav}}  <p class="disclosure">As an Amazon Associate I earn from qualifying purchases.</p>
   <p class="muted">Prices shown were accurate at time of listing and may have changed. Check Amazon for the current price.</p>
   <p class="muted">&copy; IndianDeals2Buy</p>
 </footer>
@@ -66,6 +68,8 @@
   var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
   var sections = Array.prototype.slice.call(document.querySelectorAll('.category-section'));
   var featured = document.querySelector('.featured');
+  // The tiles link to category anchors, which are hidden while filtering.
+  var catTiles = document.querySelector('.cat-tiles');
   var noResults = document.getElementById('no-results');
   var countEl = document.getElementById('filter-count');
   var timer = null;
@@ -94,6 +98,7 @@
       sections[s].hidden = !sections[s].querySelector('.product-list li:not([hidden])');
     }
     if (featured) featured.hidden = !!q && !featured.querySelector('.card:not([hidden])');
+    if (catTiles) catTiles.hidden = !!q;
     noResults.hidden = shown > 0;
     countEl.textContent = q ? shown + ' match' + (shown === 1 ? '' : 'es') : '';
   }

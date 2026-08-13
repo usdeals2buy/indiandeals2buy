@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}} — IndianDeals2Buy</title>
+<meta name="description" content="{{meta_description}}">
+<link rel="canonical" href="{{canonical_url}}">
+<meta name="theme-color" content="#0f172a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{title}} — IndianDeals2Buy">
+<meta property="og:description" content="{{meta_description}}">
+<meta property="og:url" content="{{canonical_url}}">
+<link rel="stylesheet" href="style.css">
+{{adsense_head}}</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="index.html">Indian<span>Deals</span>2Buy</a>
+    <p class="header-tag">{{tagline}}</p>
+  </div>
+</header>
+
+<main class="content-page">
+  <article>
+    <h1>{{title}}</h1>
+{{content}}
+  </article>
+</main>
+
+<footer class="site-footer">
+{{footer_nav}}  <p class="disclosure">As an Amazon Associate I earn from qualifying purchases.</p>
+  <p class="muted">&copy; IndianDeals2Buy</p>
+</footer>
+</body>
+</html>

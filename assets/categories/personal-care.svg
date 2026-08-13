@@ -1,0 +1,33 @@
+<!-- Drawn to match the hand-made PNG tiles: same 344x272 frame, card inset,
+     palette (#f1ede3 card, #eda27c art, #8d8a82 label) and label placement. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 344 272" width="344" height="272" role="img" aria-label="Personal Care">
+  <defs>
+    <filter id="tile-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#8c8880" flood-opacity=".35"/>
+    </filter>
+  </defs>
+  <rect width="344" height="272" fill="#f6f7f2"/>
+  <rect x="5" y="4" width="333" height="262" rx="14" fill="#f1ede3" filter="url(#tile-shadow)"/>
+  <!-- face wash tube -->
+  <rect x="76" y="56" width="46" height="16" rx="6" fill="#eda27c"/>
+  <path d="M78 72 h42 l10 44 v74 a12 12 0 0 1 -12 12 h-38 a12 12 0 0 1 -12 -12 v-74 z" fill="#eda27c"/>
+  <g fill="#f1ede3">
+    <rect x="84" y="132" width="30" height="7" rx="3.5"/>
+    <rect x="84" y="149" width="20" height="7" rx="3.5"/>
+  </g>
+  <!-- beard trimmer -->
+  <g fill="none" stroke="#eda27c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M188 76 h72 v18 a10 10 0 0 1 -10 10 h-52 a10 10 0 0 1 -10 -10 z"/>
+    <path d="M198 104 h52 v76 a24 24 0 0 1 -24 24 h-4 a24 24 0 0 1 -24 -24 z"/>
+    <path d="M211 128 h26" stroke-width="4"/>
+    <circle cx="224" cy="156" r="9" stroke-width="4"/>
+  </g>
+  <g fill="#eda27c">
+    <rect x="192" y="64" width="7" height="14" rx="3.5"/>
+    <rect x="206" y="64" width="7" height="14" rx="3.5"/>
+    <rect x="220" y="64" width="7" height="14" rx="3.5"/>
+    <rect x="234" y="64" width="7" height="14" rx="3.5"/>
+    <rect x="248" y="64" width="7" height="14" rx="3.5"/>
+  </g>
+  <text x="172" y="246" text-anchor="middle" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="21" letter-spacing="2" fill="#8d8a82">PERSONAL CARE</text>
+</svg>

@@ -6,7 +6,7 @@
 <title>Page not found — IndianDeals2Buy</title>
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="/style.css">
-</head>
+{{adsense_head}}</head>
 <body>
 <header class="site-header">
   <a class="site-logo" href="/">IndianDeals2Buy</a>
@@ -19,7 +19,7 @@
   </section>
 </main>
 <footer class="site-footer">
-  <p class="disclosure">As an Amazon Associate I earn from qualifying purchases.</p>
+{{footer_nav}}  <p class="disclosure">As an Amazon Associate I earn from qualifying purchases.</p>
 </footer>
 </body>
 </html>
