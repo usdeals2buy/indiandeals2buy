@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 344 264" width="344" height="264" role="img" aria-label="Sports &amp; Fitness">
+  <rect width="344" height="264" rx="16" fill="#f2efe7"/>
+  <!-- volleyball -->
+  <g fill="none" stroke="#e08b5e" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="112" cy="118" r="56"/>
+    <path d="M112 62 C84 88 78 138 96 170"/>
+    <path d="M168 118 C134 112 92 128 70 158"/>
+    <path d="M144 166 C140 130 116 92 78 80"/>
+  </g>
+  <!-- dumbbell -->
+  <g fill="#e08b5e">
+    <rect x="196" y="86" width="20" height="64" rx="8"/>
+    <rect x="222" y="98" width="16" height="40" rx="7"/>
+    <rect x="238" y="110" width="44" height="16" rx="8"/>
+    <rect x="266" y="98" width="16" height="40" rx="7"/>
+    <rect x="288" y="86" width="20" height="64" rx="8"/>
+  </g>
+  <text x="172" y="236" text-anchor="middle" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="19" letter-spacing="2.4" fill="#6f6f6f">SPORTS &amp; FITNESS</text>
+</svg>

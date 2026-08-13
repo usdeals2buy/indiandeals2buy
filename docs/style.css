@@ -149,6 +149,61 @@ main { max-width: 68rem; margin: 0 auto; padding: 0 1.25rem 4rem; }
 .chip:hover { border-color: var(--accent); color: var(--accent); }
 .chip span { color: var(--muted); font-size: .75rem; }
 
+/* ---------- Category tiles ---------- */
+/* The artwork already carries the category name, so the tile is the image plus
+   a deal count — no card chrome that would double up on the border the
+   illustration draws for itself. */
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+  gap: .8rem;
+}
+@media (min-width: 40rem) {
+  .cat-grid { grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: 1rem; }
+}
+.cat-tile {
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+  color: inherit;
+  transition: transform .16s ease;
+}
+.cat-tile:hover { color: inherit; transform: translateY(-3px); }
+.cat-tile img,
+.cat-tile .cat-tile-name {
+  display: block;
+  width: 100%;
+  aspect-ratio: 344 / 264;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+.cat-tile img { object-fit: cover; }
+.cat-tile:hover img,
+.cat-tile:hover .cat-tile-name {
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+}
+/* Fallback for a category whose artwork has not been drawn yet. */
+.cat-tile .cat-tile-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: .75rem;
+  text-align: center;
+  background: linear-gradient(135deg, var(--accent-soft), transparent);
+  font-size: .85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--accent);
+}
+.cat-tile-count {
+  text-align: center;
+  font-size: .78rem;
+  color: var(--muted);
+}
+
 /* ---------- Section headings ---------- */
 .section-heading {
   font-size: 1.05rem;

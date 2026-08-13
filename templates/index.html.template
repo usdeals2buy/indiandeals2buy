@@ -43,6 +43,8 @@
     </nav>
   </div>
 
+{{category_tiles}}
+
 {{featured_section}}
 
   <section class="all-deals">
@@ -66,6 +68,8 @@
   var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
   var sections = Array.prototype.slice.call(document.querySelectorAll('.category-section'));
   var featured = document.querySelector('.featured');
+  // The tiles link to category anchors, which are hidden while filtering.
+  var catTiles = document.querySelector('.cat-tiles');
   var noResults = document.getElementById('no-results');
   var countEl = document.getElementById('filter-count');
   var timer = null;
@@ -94,6 +98,7 @@
       sections[s].hidden = !sections[s].querySelector('.product-list li:not([hidden])');
     }
     if (featured) featured.hidden = !!q && !featured.querySelector('.card:not([hidden])');
+    if (catTiles) catTiles.hidden = !!q;
     noResults.hidden = shown > 0;
     countEl.textContent = q ? shown + ' match' + (shown === 1 ? '' : 'es') : '';
   }

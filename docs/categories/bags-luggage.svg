@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 344 264" width="344" height="264" role="img" aria-label="Bags &amp; Luggage">
+  <rect width="344" height="264" rx="16" fill="#f2efe7"/>
+  <!-- rolling suitcase -->
+  <path d="M84 92 V68 H126 V92" fill="none" stroke="#e08b5e" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="61" y="92" width="88" height="104" rx="12" fill="#e08b5e"/>
+  <g fill="#f2efe7">
+    <rect x="76" y="104" width="6" height="80" rx="3"/>
+    <rect x="94" y="104" width="6" height="80" rx="3"/>
+    <rect x="112" y="104" width="6" height="80" rx="3"/>
+    <rect x="130" y="104" width="6" height="80" rx="3"/>
+  </g>
+  <circle cx="77" cy="203" r="6.5" fill="#e08b5e"/>
+  <circle cx="133" cy="203" r="6.5" fill="#e08b5e"/>
+  <!-- backpack -->
+  <path d="M212 103 a12 10 0 0 1 24 0" fill="none" stroke="#e08b5e" stroke-width="6" stroke-linecap="round"/>
+  <path d="M165 152 a59 52 0 0 1 118 0 v32 a12 12 0 0 1 -12 12 h-94 a12 12 0 0 1 -12 -12 z" fill="#e08b5e"/>
+  <rect x="192" y="150" width="64" height="42" rx="10" fill="#f2efe7" stroke="#e08b5e" stroke-width="5"/>
+  <path d="M224 158 V172" fill="none" stroke="#e08b5e" stroke-width="5" stroke-linecap="round"/>
+  <text x="172" y="236" text-anchor="middle" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="19" letter-spacing="2.4" fill="#6f6f6f">BAGS &amp; LUGGAGE</text>
+</svg>

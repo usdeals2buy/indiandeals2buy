@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 344 264" width="344" height="264" role="img" aria-label="Personal Care">
+  <rect width="344" height="264" rx="16" fill="#f2efe7"/>
+  <!-- face wash tube -->
+  <rect x="74" y="52" width="46" height="16" rx="6" fill="#e08b5e"/>
+  <path d="M76 68 h42 l10 44 v74 a12 12 0 0 1 -12 12 h-38 a12 12 0 0 1 -12 -12 v-74 z" fill="#e08b5e"/>
+  <g fill="#f2efe7">
+    <rect x="82" y="128" width="30" height="7" rx="3.5"/>
+    <rect x="82" y="145" width="20" height="7" rx="3.5"/>
+  </g>
+  <!-- beard trimmer -->
+  <g fill="none" stroke="#e08b5e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M186 72 h72 v18 a10 10 0 0 1 -10 10 h-52 a10 10 0 0 1 -10 -10 z"/>
+    <path d="M196 100 h52 v76 a24 24 0 0 1 -24 24 h-4 a24 24 0 0 1 -24 -24 z"/>
+    <path d="M209 124 h26" stroke-width="4"/>
+    <circle cx="222" cy="152" r="9" stroke-width="4"/>
+  </g>
+  <g fill="#e08b5e">
+    <rect x="190" y="60" width="7" height="14" rx="3.5"/>
+    <rect x="204" y="60" width="7" height="14" rx="3.5"/>
+    <rect x="218" y="60" width="7" height="14" rx="3.5"/>
+    <rect x="232" y="60" width="7" height="14" rx="3.5"/>
+    <rect x="246" y="60" width="7" height="14" rx="3.5"/>
+  </g>
+  <text x="172" y="236" text-anchor="middle" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="19" letter-spacing="2.4" fill="#6f6f6f">PERSONAL CARE</text>
+</svg>

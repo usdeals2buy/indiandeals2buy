@@ -23,6 +23,16 @@ TEMPLATE_DIR = ROOT / "templates"
 OUTPUT_DIR = ROOT / "docs"
 SITE_URL = "https://indiandeals2buy.com"
 
+# Artwork for the "Shop by category" tiles, named after the slugified category:
+# assets/categories/home-kitchen.svg serves the "Home & Kitchen" category. Only
+# the files whose category actually has products are copied to docs/categories/.
+CATEGORY_IMAGE_DIR = ROOT / "assets" / "categories"
+
+# Tried in order, so dropping a hand-made home-kitchen.png next to the SVG
+# replaces it without touching this file. Raster art should be about 688x528
+# (2x the SVG viewBox) so it stays sharp on a retina screen.
+CATEGORY_IMAGE_EXTENSIONS = (".png", ".jpg", ".jpeg", ".webp", ".svg")
+
 # Shown next to the logo on every page. Kept merchant-neutral so it still reads
 # correctly as stores beyond Amazon are added.
 SITE_TAGLINE = "Hand-picked deals from India’s top stores"
@@ -35,7 +45,7 @@ AFFILIATE_TAG = "onlinedealsat-21"
 # build the site with no ad code at all. When set, every page gets the AdSense
 # loader (which is also what Auto ads and site verification use) and docs/ads.txt
 # is generated — AdSense will not serve ads without that file.
-ADSENSE_CLIENT = ""
+ADSENSE_CLIENT = "ca-pub-9918193591458555"
 
 # Published on the contact page and in the privacy policy. AdSense reviewers
 # look for a reachable address here — make sure this mailbox actually works.
@@ -130,6 +140,23 @@ def footer_nav(prefix=""):
         f'<a href="{prefix}{slug}.html">{label}</a>' for slug, label, _, _ in PAGES
     ]
     return f'  <nav class="footer-nav" aria-label="Site">{"".join(links)}</nav>\n'
+
+
+def category_image(category):
+    """Path to the tile artwork for `category`, or None when there is none.
+
+    Categories added to products.json without matching artwork are not an
+    error — they fall back to a text tile — so a new category never blocks a
+    build while its icon is being drawn.
+    """
+    slug = slugify(category)
+    if not slug:
+        return None
+    for ext in CATEGORY_IMAGE_EXTENSIONS:
+        candidate = CATEGORY_IMAGE_DIR / f"{slug}{ext}"
+        if candidate.exists():
+            return candidate
+    return None
 
 
 def render(template, context):
@@ -334,6 +361,52 @@ def build():
         for c in sorted(by_category, key=str.lower)
     )
 
+    # "Shop by category" tiles. The artwork already carries the category name,
+    # so the tile itself adds only the deal count; the accessible name comes
+    # from the link's aria-label rather than the (decorative) <img> alt.
+    category_images_dir = OUTPUT_DIR / "categories"
+    tiles = []
+    used_images = set()
+    for category in sorted(by_category, key=str.lower):
+        count = len(by_category[category])
+        label = html.escape(category)
+        count_text = f'{count} deal{"" if count == 1 else "s"}'
+        source = category_image(category)
+        if source:
+            category_images_dir.mkdir(parents=True, exist_ok=True)
+            shutil.copy(source, category_images_dir / source.name)
+            used_images.add(source.name)
+            media = (
+                f'<img src="categories/{source.name}" alt="" '
+                f'loading="lazy" decoding="async">'
+            )
+            extra_class = ""
+        else:
+            media = f'<span class="cat-tile-name">{label}</span>'
+            extra_class = " cat-tile-plain"
+        tiles.append(
+            f'      <a class="cat-tile{extra_class}" href="#cat-{slugify(category)}" '
+            f'aria-label="{label} — {count_text}">\n'
+            f'        {media}\n'
+            f'        <span class="cat-tile-count">{count_text}</span>\n'
+            f'      </a>'
+        )
+    category_tiles = ""
+    if tiles:
+        category_tiles = (
+            '  <section class="cat-tiles">\n'
+            '    <h2 class="section-heading">Shop by category</h2>\n'
+            '    <div class="cat-grid">\n' + "\n".join(tiles) + "\n"
+            '    </div>\n'
+            '  </section>'
+        )
+
+    # Drop artwork for categories that no longer have any products.
+    if category_images_dir.exists():
+        for path in category_images_dir.iterdir():
+            if path.is_file() and path.name not in used_images:
+                path.unlink()
+
     # The hero used to promise "no tracking scripts" and a zero-tracker count.
     # Ad code makes that untrue, so the claim is only made when there is none.
     if ADSENSE_CLIENT:
@@ -354,6 +427,7 @@ def build():
         "category_count": str(len(by_category)),
         "featured_section": featured_section,
         "category_chips": chips,
+        "category_tiles": category_tiles,
         "category_sections": "\n".join(sections),
         "adsense_head": ads_head,
         "footer_nav": nav_root,
@@ -447,6 +521,8 @@ def build():
 
     print(f"Built {len(entries)} product pages + index.html into {OUTPUT_DIR.relative_to(ROOT)}/")
     print(f"Categories: {len(by_category)}   Featured cards: {len(featured)}")
+    print(f"Category tiles: {len(used_images)} with artwork, "
+          f"{len(by_category) - len(used_images)} text-only")
     print(f"Affiliate tag: {AFFILIATE_TAG} ({retagged} URL(s) rewritten to carry it)")
     print(f"Content pages: {', '.join(slug + '.html' for slug, _, _, _ in PAGES)}")
     print(f"AdSense: {ADSENSE_CLIENT + ' (+ ads.txt)' if ADSENSE_CLIENT else 'not configured'}")
